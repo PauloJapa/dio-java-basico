@@ -1,0 +1,17 @@
+#version: "3.9"  # ou versão mais recente
+services:
+  app:
+    build:
+      context: .. # Contexto de build é o diretório raiz do projeto
+      dockerfile: ./dockerfiles/Dockerfile # Caminho para o Dockerfile
+    ports:
+      - "8080:8080" # Mapeia a porta 8080 do container para a porta 8080 do host
+    volumes:
+      - ../src:/app/src # Monta o diretório src do host no container (para desenvolvimento)
+      - ~/.m2:/root/.m2 # Monta o diretório .m2 do host no container (cache do Maven)
+    #depends_on: # Dependências do seu serviço (ex: banco de dados) se houverem
+      # - database
+    # environment: # Variáveis de ambiente
+    #   - VARIAVEL=valorservices:
+    # ... other configurations
+    command: ["java", "-cp", "app.jar", "src/App.java"]
